@@ -30,6 +30,8 @@ class BitcoinPrice():
         
         # extract and insert into lists respectively - price, timestamp, volume
         json_data = json_message['data'][0]
+        
+        # added check if time gap between records is not too long
         if not json_data['t'] - self.timestamps_list[-1] > 1000:
             self.prices_list.append(json_data["p"])
             self.timestamps_list.append(json_data["t"])
