@@ -23,16 +23,17 @@ class BitcoinPrice():
         self.total_volumes = []
         self.last_time = datetime.datetime.now()
         self.vwap = 0
-        
+
     def on_message(self, ws, message):
         # get tha data from source
         json_message = json.loads(message)
         
         # extract and insert into lists respectively - price, timestamp, volume
         json_data = json_message['data'][0]
-        self.prices_list.append(json_data["p"])
-        self.timestamps_list.append(json_data["t"])
-        self.volumes_list.append(json_data["v"])
+        if not json_data['t'] - self.timestamps_list[-1] > 1000:
+            self.prices_list.append(json_data["p"])
+            self.timestamps_list.append(json_data["t"])
+            self.volumes_list.append(json_data["v"])
         
         # print current record - depends on if variable "verbose" is True or False
         if self.verbose:
