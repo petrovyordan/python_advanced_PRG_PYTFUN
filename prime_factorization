@@ -1,0 +1,42 @@
+num = int(input())
+
+def insert_into_dict(num, coll):
+    if num not in coll:
+        coll[num] = 1  # supposing you want multiple factors repeated
+    else:
+        coll[num] += 1
+
+
+def return_str_result(coll_to_ret):
+    prime_factorization = ''
+    
+    counter = len(coll_to_ret)
+    for key, value in coll_to_ret.items():
+        counter -= 1
+        if value > 1:
+            if counter:
+                prime_factorization += (str(key) + '*') * value
+            else:
+                prime_factorization += str(key)
+        else:
+            if counter:
+                prime_factorization += str(key) + '*'
+            else:
+                prime_factorization += str(key)
+    return prime_factorization
+
+def prime_numbers(n):
+    primes_dict = {}
+    divisor = 2
+    while divisor * divisor <= n:
+        while (n % divisor) == 0:
+            insert_into_dict(divisor, primes_dict)
+            n //= divisor
+        divisor += 1
+    if n > 1:
+       insert_into_dict(n, primes_dict)
+    
+    return return_str_result(primes_dict)
+
+
+print(prime_numbers(num))
